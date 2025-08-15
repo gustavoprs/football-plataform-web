@@ -56,7 +56,7 @@ export default function Nav() {
 	return (
 		<NavigationMenu>
 			<NavigationMenuList>
-				<NavigationMenuLink asChild>
+				<NavigationMenuLink className="font-medium" asChild>
 					<Link href="/agenda">Agenda</Link>
 				</NavigationMenuLink>
 				<NavigationMenuItem>
@@ -101,6 +101,7 @@ function Item({ link }: { link: LinkItem }) {
 					<img
 						src={link.image}
 						alt={`Logo do campeonato ${link.title}`}
+						loading="lazy"
 						width={20}
 						height={20}
 					/>
