@@ -7,6 +7,6 @@ export type CompetitionType =
 export type Competition = {
 	id: number
 	name: string
-	type: CompetitionType
+	type?: CompetitionType
 	logo: string
 }

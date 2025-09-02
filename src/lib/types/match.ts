@@ -11,6 +11,14 @@ export type Score = {
 		home: number
 		away: number
 	}
+	extraTime: {
+		home: number
+		away: number
+	}
+	penalty: {
+		home: number
+		away: number
+	}
 }
 
 export type MatchStatus =
@@ -22,6 +30,7 @@ export type MatchStatus =
 
 export type Match = {
 	id: number
+	round?: number
 	date: Date
 	status: MatchStatus
 
@@ -32,5 +41,6 @@ export type Match = {
 
 	venue: Venue
 
-	competition: Competition
+	phase: number
+	competition?: Competition
 }
