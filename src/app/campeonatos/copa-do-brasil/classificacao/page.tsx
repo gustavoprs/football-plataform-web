@@ -1,8 +1,57 @@
 import { TabsContent } from "@/components/ui/tabs"
-import { formatDateTime } from "@/lib/utils/date"
+import { getMatches } from "@/lib/footballApi/matches"
+import { getPhases } from "@/lib/footballApi/phases"
+import type { Match } from "@/lib/types/match"
+import MatchCard from "./components/MatchCard"
+import TwoLeggedTieCard from "./components/TwoLeggedTieCard"
 import PhaseTabs from "./PhaseTabs"
 
-export default function Page() {
+function groupMatches(matches: Match[]): Record<number, Match[][] | Match[]> {
+	const keyMap = new Map<number, number>()
+	const matchesRecord: Record<number, Match[][] | Match[]> = {}
+
+	let newKey = 1
+
+	for (const match of matches) {
+		if (!keyMap.has(match.phase)) {
+			keyMap.set(match.phase, newKey)
+			matchesRecord[keyMap.get(match.phase) || 0] = []
+			newKey++
+		}
+
+		;(matchesRecord[keyMap.get(match.phase) || 0] as Match[]).push(match)
+	}
+
+	for (let i = 3; i < 7; i++) {
+		const phaseMatches = matchesRecord[i] as Match[]
+		if (!phaseMatches) continue
+
+		const tieMap = new Map<string, Match[]>()
+
+		for (const match of phaseMatches) {
+			const teamIds = [match.homeTeam.id, match.awayTeam.id].sort(
+				(a, b) => a - b,
+			)
+			const tieKey = `${teamIds[0]}-${teamIds[1]}`
+
+			const tieList = tieMap.get(tieKey) || []
+			tieList.push(match)
+			tieMap.set(tieKey, tieList)
+		}
+
+		matchesRecord[i] = Array.from(tieMap.values())
+	}
+
+	return matchesRecord
+}
+
+export default async function Page() {
+	const matches = await getMatches(3, 2025)
+
+	const phasesMatches = await getPhases(3, 2025)
+
+	const matchesByPhase = groupMatches(matches)
+
 	return (
 		<div className="p-4">
 			<div className="flex flex-col mx-auto flex-1 max-w-screen-xl w-full">
@@ -10,195 +59,98 @@ export default function Page() {
 					<PhaseTabs>
 						<TabsContent value="primeira-fase">
 							<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-								{new Array(40).fill("").map((_, index) => (
-									<MatchCard key={index} index={`Chave ${index + 1}`} />
+								{phasesMatches[0].matches?.map((match, index) => (
+									<MatchCard
+										key={match.id}
+										match={match}
+										index={`Chave ${index + 1}`}
+									/>
 								))}
 							</div>
 						</TabsContent>
 						<TabsContent value="segunda-fase">
 							<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-								{new Array(20).fill("").map((_, index) => (
-									<MatchCard key={index} index={`Chave ${index + 1}`} />
-								))}
+								{matchesByPhase[2] !== undefined &&
+									(matchesByPhase[2] as Match[]).map((match, index) => (
+										<MatchCard
+											key={match.id}
+											match={match}
+											index={`Chave ${index + 1}`}
+										/>
+									))}
 							</div>
 						</TabsContent>
 						<TabsContent value="terceira-fase">
 							<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-								{new Array(16).fill("").map((_, index) => (
-									<TwoLeggedTieCard key={index} index={`Chave ${index + 1}`} />
-								))}
+								{matchesByPhase[3] !== undefined &&
+									(matchesByPhase[3] as Array<Match[]>).map(
+										(matches, index) => (
+											<TwoLeggedTieCard
+												key={`${matches[0].id}${matches[1].id}`}
+												firstMatch={matches[0]}
+												secondMatch={matches[1]}
+												index={`Chave ${index + 1}`}
+											/>
+										),
+									)}
 							</div>
 						</TabsContent>
 						<TabsContent value="oitavas-de-final">
 							<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-								{new Array(8).fill("").map((_, index) => (
-									<TwoLeggedTieCard
-										key={index}
-										index={`Oitavas ${index + 1}`}
-									/>
-								))}
+								{matchesByPhase[4] !== undefined &&
+									(matchesByPhase[4] as Array<Match[]>).map(
+										(matches, index) => (
+											<TwoLeggedTieCard
+												key={`${matches[0].id}${matches[1].id}`}
+												firstMatch={matches[0]}
+												secondMatch={matches[1]}
+												index={`Oitavas ${index + 1}`}
+											/>
+										),
+									)}
 							</div>
 						</TabsContent>
 						<TabsContent value="quartas-de-final">
-							{" "}
 							<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-								{new Array(4).fill("").map((_, index) => (
-									<TwoLeggedTieCard
-										key={index}
-										index={`Quartas ${index + 1}`}
-									/>
-								))}
+								{matchesByPhase[5] !== undefined &&
+									(matchesByPhase[5] as Array<Match[]>).map(
+										(matches, index) => (
+											<TwoLeggedTieCard
+												key={`${matches[0].id}${matches[1].id}`}
+												firstMatch={matches[0]}
+												secondMatch={matches[1]}
+												index={`Quartas ${index + 1}`}
+											/>
+										),
+									)}
 							</div>
 						</TabsContent>
 						<TabsContent value="semifinal">
-							{" "}
 							<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-								{new Array(2).fill("").map((_, index) => (
-									<TwoLeggedTieCard
-										key={index}
-										index={`Semifinal ${index + 1}`}
-									/>
-								))}
+								{matchesByPhase[6] !== undefined &&
+									(matchesByPhase[6] as Array<Match[]>).map(
+										(matches, index) => (
+											<TwoLeggedTieCard
+												key={`${matches[0].id}${matches[1].id}`}
+												firstMatch={matches[0]}
+												secondMatch={matches[1]}
+												index={`Semifinal ${index + 1}`}
+											/>
+										),
+									)}
 							</div>
 						</TabsContent>
 						<TabsContent value="final">
-							<TwoLeggedTieCard index={"Final"} />
+							{matchesByPhase[7] !== undefined && (
+								<TwoLeggedTieCard
+									index={"Final"}
+									firstMatch={(matchesByPhase[7] as Array<Match[]>)[0][0]}
+									secondMatch={(matchesByPhase[7] as Array<Match[]>)[0][1]}
+								/>
+							)}
 						</TabsContent>
 					</PhaseTabs>
 				</section>
-			</div>
-		</div>
-	)
-}
-
-type MatchCardProps = {
-	index?: string
-}
-
-export function MatchCard({ index }: MatchCardProps) {
-	return (
-		<div className="relative flex flex-col justify-center items-center gap-2 rounded-md border py-4 px-3 bg-card">
-			{index && (
-				<span className="absolute -top-3 rounded-sm border py-0.5 px-1.5 text-xs bg-background">
-					{index}
-				</span>
-			)}
-			<span className="w-full text-center text-xs font-light whitespace-nowrap">
-				{formatDateTime(new Date())}
-			</span>
-			<div className="flex justify-between items-center gap-2 max-w-52 w-full">
-				<div className="flex items-center gap-2">
-					{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
-					<img
-						src={"https://media.api-sports.io/football/teams/154.png"}
-						alt={"Fortaleza"}
-						loading="lazy"
-						className="size-8 object-contain"
-					/>
-					<span>{"FOR"}</span>
-				</div>
-				<div className="flex gap-1.5">
-					{true && <span className=" text-lg font-medium">{1}</span>}
-					<span className="text-lg font-extralight font-mono text-muted-foreground">
-						x
-					</span>
-					{true && <span className=" text-lg font-medium">{2}</span>}
-				</div>
-				<div className="flex flex-row-reverse items-center gap-2">
-					{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
-					<img
-						src={"https://media.api-sports.io/football/teams/131.png"}
-						alt={"Corinthians"}
-						loading="lazy"
-						className="size-8 object-contain"
-					/>
-					<span>{"COR"}</span>
-				</div>
-			</div>
-		</div>
-	)
-}
-
-type TwoLeggedTieCardProps = {
-	index?: string
-}
-
-function TwoLeggedTieCard({ index }: TwoLeggedTieCardProps) {
-	return (
-		<div className="relative flex flex-col justify-center items-center rounded-md border sm:flex-row md:flex-col lg:flex-row xl:flex-col">
-			{index && (
-				<span className="absolute -top-3 rounded-sm border py-0.5 px-1.5 text-xs bg-background">
-					{index}
-				</span>
-			)}
-			<div className="relative flex flex-col items-center gap-2 py-4 px-3 flex-1 h-full">
-				<span className="w-full text-center text-xs font-light whitespace-nowrap">
-					{formatDateTime(new Date())}
-				</span>
-				<div className="flex justify-between items-center gap-2 max-w-52 w-full">
-					<div className="flex items-center gap-2">
-						{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
-						<img
-							src={"https://media.api-sports.io/football/teams/154.png"}
-							alt={"Fortaleza"}
-							loading="lazy"
-							className="size-8 object-contain"
-						/>
-						<span>{"FOR"}</span>
-					</div>
-					<div className="flex gap-1.5">
-						{true && <span className=" text-lg font-medium">{1}</span>}
-						<span className="text-lg font-extralight font-mono text-muted-foreground">
-							x
-						</span>
-						{true && <span className=" text-lg font-medium">{2}</span>}
-					</div>
-					<div className="flex flex-row-reverse items-center gap-2">
-						{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
-						<img
-							src={"https://media.api-sports.io/football/teams/131.png"}
-							alt={"Corinthians"}
-							loading="lazy"
-							className="size-8 object-contain"
-						/>
-						<span>{"COR"}</span>
-					</div>
-				</div>
-			</div>
-			<hr className="absolute -z-1 w-full h-px bg-border sm:w-px sm:h-full md:w-full md:h-px lg:w-px lg:h-full xl:w-full xl:h-px" />
-			<div className="relative flex flex-col items-center gap-2 py-4 px-3 flex-1 h-full">
-				<span className="w-full text-center text-xs font-light whitespace-nowrap">
-					{formatDateTime(new Date())}
-				</span>
-				<div className="flex justify-between items-center gap-2 max-w-52 w-full">
-					<div className="flex items-center gap-2">
-						{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
-						<img
-							src={"https://media.api-sports.io/football/teams/154.png"}
-							alt={"Fortaleza"}
-							loading="lazy"
-							className="size-8 object-contain"
-						/>
-						<span>{"FOR"}</span>
-					</div>
-					<div className="flex gap-1.5">
-						{true && <span className=" text-lg font-medium">{1}</span>}
-						<span className="text-lg font-extralight font-mono text-muted-foreground">
-							x
-						</span>
-						{true && <span className=" text-lg font-medium">{2}</span>}
-					</div>
-					<div className="flex flex-row-reverse items-center gap-2">
-						{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
-						<img
-							src={"https://media.api-sports.io/football/teams/131.png"}
-							alt={"Corinthians"}
-							loading="lazy"
-							className="size-8 object-contain"
-						/>
-						<span>{"COR"}</span>
-					</div>
-				</div>
 			</div>
 		</div>
 	)
