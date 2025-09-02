@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 				<nav className="flex justify-center items-center gap-4">
 					<TabLink href="/campeonatos/brasileirao-serie-a/tabela" name="Tabela" />
 					<TabLink href="/campeonatos/brasileirao-serie-a/estatisticas" name="Estatísticas" disabled />
-					<TabLink href="/campeonatos/brasileirao-serie-a/simulador" name="Simulador" disabled />
+					<TabLink href="/campeonatos/brasileirao-serie-a/simulador" name="Simulador" />
 				</nav>
 			</div>
 			{children}
