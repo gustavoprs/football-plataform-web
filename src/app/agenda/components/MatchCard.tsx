@@ -21,29 +21,39 @@ export function MatchCard({ match, index }: MatchCardProps) {
 				<div className="flex items-center gap-2">
 					{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
 					<img
-						src={match.homeTeam.logo}
+						src={match.homeTeam.logoURL}
 						alt={match.homeTeam.name}
 						loading="lazy"
 						className="size-8 object-contain"
 					/>
-					<span>{match.homeTeam.code}</span>
+					<span title={match.homeTeam.name}>
+						{match.homeTeam.code ||
+							match.homeTeam.name.substring(0, 3).toUpperCase()}
+					</span>
 				</div>
 				<div className="flex gap-1.5">
 					{match.status === "finished" && (
-						<span className=" text-lg font-medium">{match.score.fullTime.home}</span>
+						<span className=" text-lg font-medium">
+							{match.score.fullTime.home}
+						</span>
 					)}
 					<span className="text-lg font-extralight font-mono text-muted-foreground">
 						x
 					</span>
 					{match.status === "finished" && (
-						<span className=" text-lg font-medium">{match.score.fullTime.away}</span>
+						<span className=" text-lg font-medium">
+							{match.score.fullTime.away}
+						</span>
 					)}
 				</div>
 				<div className="flex items-center gap-2">
-					<span>{match.awayTeam.code}</span>
+					<span title={match.awayTeam.name}>
+						{match.awayTeam.code ||
+							match.awayTeam.name.substring(0, 3).toUpperCase()}
+					</span>
 					{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
 					<img
-						src={match.awayTeam.logo}
+						src={match.awayTeam.logoURL}
 						alt={match.awayTeam.name}
 						loading="lazy"
 						className="size-8 object-contain"

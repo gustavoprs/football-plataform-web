@@ -1,8 +1,13 @@
-import { getAllMatches } from "@/lib/services/matches"
+import { getFilteredMatches } from "@/lib/footballApi/matches"
 import { Content } from "./components/Content"
 
 export default async function Page() {
-	const matches = await getAllMatches()
+	const matches = await getFilteredMatches({
+		competitionIds: [1, 2, 3],
+		year: 2025,
+	})
+
+	console.log(matches)
 
 	return (
 		<div className=" flex flex-col flex-1">

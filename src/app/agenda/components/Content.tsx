@@ -28,6 +28,7 @@ export function Content({ matches }: ContentProps) {
 	})
 	const [selectedCompetitions, setSelectedCompetitions] = useState<string[]>([
 		"brasileirao-serie-a",
+		"brasileirao-serie-b",
 		"copa-do-brasil",
 	])
 
@@ -40,12 +41,17 @@ export function Content({ matches }: ContentProps) {
 	const matchesByCompetition: Record<string, Match[]> = {}
 	if (selectedCompetitions.includes("brasileirao-serie-a")) {
 		matchesByCompetition["brasileirao-serie-a"] = filteredMatches.filter(
-			(f) => f.competition.id === 1,
+			(f) => f.competition?.id === 1,
+		)
+	}
+	if (selectedCompetitions.includes("brasileirao-serie-b")) {
+		matchesByCompetition["brasileirao-serie-b"] = filteredMatches.filter(
+			(f) => f.competition?.id === 2,
 		)
 	}
 	if (selectedCompetitions.includes("copa-do-brasil")) {
 		matchesByCompetition["copa-do-brasil"] = filteredMatches.filter(
-			(f) => f.competition.id === 2,
+			(f) => f.competition?.id === 3,
 		)
 	}
 
@@ -72,6 +78,10 @@ export function Content({ matches }: ContentProps) {
 								value: "brasileirao-serie-a",
 							},
 							{
+								label: "Brasileirão Série B",
+								value: "brasileirao-serie-b",
+							},
+							{
 								label: "Copa do Brasil",
 								value: "copa-do-brasil",
 							},
@@ -96,6 +106,25 @@ export function Content({ matches }: ContentProps) {
 									</CollapsibleTrigger>
 									<CollapsibleContent className="grid grid-cols-1 gap-2 md:grid-cols-2">
 										{matchesByCompetition["brasileirao-serie-a"].map(
+											(match) => (
+												<MatchCard key={match.id} match={match} />
+											),
+										)}
+									</CollapsibleContent>
+								</Collapsible>
+							)}
+						{selectedCompetitions.includes("brasileirao-serie-b") &&
+							matchesByCompetition["brasileirao-serie-b"].length > 0 && (
+								<Collapsible
+									defaultOpen
+									className="group flex flex-col gap-2 rounded-md p-2 bg-muted"
+								>
+									<CollapsibleTrigger className="flex justify-between items-center w-full text-lg font-medium cursor-pointer">
+										<span>Brasileirão Série B</span>
+										<ChevronDownIcon className="rotate-0 transition-transform group-data-[state=open]:rotate-180" />
+									</CollapsibleTrigger>
+									<CollapsibleContent className="grid grid-cols-1 gap-2 md:grid-cols-2">
+										{matchesByCompetition["brasileirao-serie-b"].map(
 											(match) => (
 												<MatchCard key={match.id} match={match} />
 											),
