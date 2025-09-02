@@ -26,6 +26,10 @@ export default function MobileNav() {
 						name="Brasileirão Série A"
 					/>
 					<MobileNavLink
+						href="/campeonatos/brasileirao-serie-b"
+						name="Brasileirão Série B"
+					/>
+					<MobileNavLink
 						href="/campeonatos/copa-do-brasil"
 						name="Copa do Brasil"
 					/>

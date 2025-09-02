@@ -1,0 +1,20 @@
+import TabLink from "@/components/layout/TabLink";
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+	return (
+		<div className="flex flex-col flex-1">
+			<div className="border-b">
+				<div className=" flex justify-center items-center p-2">
+					<h1 className="text-3xl font-semibold">Brasileirão Série B</h1>
+				</div>
+				<nav className="flex justify-center items-center gap-4">
+					<TabLink href="/campeonatos/brasileirao-serie-b/tabela" name="Tabela" />
+					<TabLink href="/campeonatos/brasileirao-serie-b/estatisticas" name="Estatísticas" disabled />
+					<TabLink href="/campeonatos/brasileirao-serie-b/simulador" name="Simulador" />
+				</nav>
+			</div>
+			{children}
+		</div>
+	)
+}
+

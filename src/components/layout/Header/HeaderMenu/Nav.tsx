@@ -23,6 +23,12 @@ const championshipLinks: LinkItem[] = [
 		description: "",
 	},
 	{
+		href: "/campeonatos/brasileirao-serie-b",
+		image: "https://media.api-sports.io/football/leagues/72.png",
+		title: "Brasileirão Série B",
+		description: "",
+	},
+	{
 		href: "/campeonatos/copa-do-brasil",
 		image: "https://media.api-sports.io/football/leagues/73.png",
 		title: "Copa do Brasil",
@@ -42,6 +48,13 @@ const simulatorLinks: {
 		title: "Brasileirão Série A",
 		description:
 			"Simule os jogos do Brasileirão Série A e veja como a tabela pode mudar.",
+	},
+	{
+		href: "/campeonatos/brasileirao-serie-b/simulador",
+		image: "https://media.api-sports.io/football/leagues/72.png",
+		title: "Brasileirão Série B",
+		description:
+			"Simule os jogos do Brasileirão Série B e veja como a tabela pode mudar.",
 	},
 	{
 		href: "/campeonatos/copa-do-brasil/simulador",
