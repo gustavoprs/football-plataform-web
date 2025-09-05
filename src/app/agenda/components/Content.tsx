@@ -1,8 +1,9 @@
+/** biome-ignore-all lint/performance/noImgElement: <hostname not configured> */
 "use client"
 
 import { endOfDay, isWithinInterval, startOfDay } from "date-fns"
 import { ChevronDownIcon } from "lucide-react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import type { DateRange } from "react-day-picker"
 import {
 	Collapsible,
@@ -19,6 +20,51 @@ type ContentProps = {
 	matches: Match[]
 }
 
+const competitionOptions = [
+	{
+		value: "brasileirao-serie-a",
+		label: (
+			<div className="inline-flex items-center gap-2">
+				<img
+					src="https://media.api-sports.io/football/leagues/71.png"
+					alt="Logo"
+					className="size-4"
+				/>
+				Brasileirão Série A
+			</div>
+		),
+		searchLabel: "Brasileirão Serie A",
+	},
+	{
+		value: "brasileirao-serie-b",
+		label: (
+			<div className="inline-flex items-center gap-2">
+				<img
+					src="https://media.api-sports.io/football/leagues/72.png"
+					alt="Logo"
+					className="size-4"
+				/>
+				Brasileirão Série B
+			</div>
+		),
+		searchLabel: "Brasileirão Serie B",
+	},
+	{
+		value: "copa-do-brasil",
+		label: (
+			<div className="inline-flex items-center gap-2">
+				<img
+					src="https://media.api-sports.io/football/leagues/73.png"
+					alt="Logo"
+					className="size-4"
+				/>
+				Copa do Brasil
+			</div>
+		),
+		searchLabel: "Copa do Brasil",
+	},
+]
+
 export function Content({ matches }: ContentProps) {
 	const [selectedDateRange, setSelectedDateRange] = useState<
 		DateRange | undefined
@@ -31,11 +77,66 @@ export function Content({ matches }: ContentProps) {
 		"brasileirao-serie-b",
 		"copa-do-brasil",
 	])
+	const [selectedTeams, setSelectedTeams] = useState<number[]>([])
 
+	const teamsOptions = useMemo(() => {
+		return Array.from(
+			new Map(
+				matches.flatMap((match) => [
+					[
+						match.homeTeam.id,
+						{
+							label: (
+								<div className="inline-flex items-center gap-2">
+									<img
+										src={match.homeTeam.logoURL}
+										alt="Escudo"
+										loading="lazy"
+										className="size-4"
+									/>
+									{match.homeTeam.name}
+								</div>
+							),
+							value: match.homeTeam.id,
+							searchLabel: match.homeTeam.name,
+						},
+					],
+					[
+						match.awayTeam.id,
+						{
+							label: (
+								<div className="inline-flex items-center gap-2">
+									<img
+										src={match.awayTeam.logoURL}
+										alt="Escudo"
+										loading="lazy"
+										className="size-4"
+									/>
+									{match.awayTeam.name}
+								</div>
+							),
+							value: match.awayTeam.id,
+							searchLabel: match.awayTeam.name,
+						},
+					],
+				]),
+			),
+		)
+			.map(([, option]) => option)
+			.sort((a, b) => a.searchLabel.localeCompare(b.searchLabel))
+	}, [matches])
+
+	/* Filter matches */
 	const filteredMatches = matches.filter((match) => {
 		const start = startOfDay(selectedDateRange?.from ?? new Date())
 		const end = endOfDay(selectedDateRange?.to ?? new Date())
-		return isWithinInterval(match.date, { start, end })
+
+		const isInSelectedTeams =
+			selectedTeams.length === 0 ||
+			selectedTeams.includes(match.homeTeam.id) ||
+			selectedTeams.includes(match.awayTeam.id)
+
+		return isWithinInterval(match.date, { start, end }) && isInSelectedTeams
 	})
 
 	const matchesByCompetition: Record<string, Match[]> = {}
@@ -72,22 +173,17 @@ export function Content({ matches }: ContentProps) {
 				<Label className="flex flex-col items-start">
 					Campeonatos:
 					<ResponsiveSelect
-						options={[
-							{
-								label: "Brasileirão Série A",
-								value: "brasileirao-serie-a",
-							},
-							{
-								label: "Brasileirão Série B",
-								value: "brasileirao-serie-b",
-							},
-							{
-								label: "Copa do Brasil",
-								value: "copa-do-brasil",
-							},
-						]}
+						options={competitionOptions}
 						value={selectedCompetitions}
 						onValueChange={setSelectedCompetitions}
+					/>
+				</Label>
+				<Label className="flex flex-col items-start">
+					Clubes:
+					<ResponsiveSelect<number>
+						options={teamsOptions}
+						value={selectedTeams}
+						onValueChange={setSelectedTeams}
 					/>
 				</Label>
 			</div>
