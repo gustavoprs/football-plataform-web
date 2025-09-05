@@ -7,8 +7,6 @@ export default async function Page() {
 		year: 2025,
 	})
 
-	console.log(matches)
-
 	return (
 		<div className=" flex flex-col flex-1">
 			<div className="border-b">
