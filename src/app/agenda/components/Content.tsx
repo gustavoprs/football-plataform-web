@@ -164,7 +164,7 @@ export function Content({ matches }: ContentProps) {
 		<section className="flex flex-col gap-4">
 			<div className="flex justify-between gap-3 sm:justify-start">
 				<Label className="flex flex-col items-start">
-					Dias:
+					Datas:
 					<ResponsiveDateRangePicker
 						value={selectedDateRange}
 						onValueChange={setSelectedDateRange}
