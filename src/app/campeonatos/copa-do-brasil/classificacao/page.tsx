@@ -97,7 +97,7 @@ export default async function Page() {
 							</div>
 						</TabsContent>
 						<TabsContent value="oitavas-de-final">
-							<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+							<div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 								{matchesByPhase[4] !== undefined &&
 									(matchesByPhase[4] as Array<Match[]>).map(
 										(matches, index) => (
@@ -112,7 +112,7 @@ export default async function Page() {
 							</div>
 						</TabsContent>
 						<TabsContent value="quartas-de-final">
-							<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+							<div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 								{matchesByPhase[5] !== undefined &&
 									(matchesByPhase[5] as Array<Match[]>).map(
 										(matches, index) => (
@@ -127,7 +127,7 @@ export default async function Page() {
 							</div>
 						</TabsContent>
 						<TabsContent value="semifinal">
-							<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+							<div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 								{matchesByPhase[6] !== undefined
 									? (matchesByPhase[6] as Array<Match[]>).map(
 										(matches, index) => (
