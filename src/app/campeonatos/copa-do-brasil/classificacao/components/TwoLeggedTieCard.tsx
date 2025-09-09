@@ -24,7 +24,7 @@ export default function TwoLeggedTieCard({
 			)}
 			<div className="relative flex flex-col items-center gap-2 py-4 px-3 flex-1 h-full">
 				<span className="w-full text-center text-xs font-light whitespace-nowrap">
-					{formatDateTime(new Date())}
+					{formatDateTime(firstMatch.date)}
 				</span>
 				<div className="flex justify-between items-center gap-2 max-w-60 w-full">
 					<div className="flex items-center gap-2">
@@ -73,7 +73,7 @@ export default function TwoLeggedTieCard({
 			<hr className="absolute -z-1 w-full h-px bg-border sm:w-px sm:h-full md:w-full md:h-px lg:w-px lg:h-full xl:w-full xl:h-px" />
 			<div className="relative flex flex-col items-center gap-2 py-4 px-3 flex-1 h-full">
 				<span className="w-full text-center text-xs font-light whitespace-nowrap">
-					{formatDateTime(new Date())}
+					{formatDateTime(secondMatch.date)}
 				</span>
 				<div className="flex justify-between items-center gap-2 max-w-60 w-full">
 					<div className="flex items-center gap-2">
