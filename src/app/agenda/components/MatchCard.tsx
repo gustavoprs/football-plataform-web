@@ -24,7 +24,7 @@ export function MatchCard({ match, index }: MatchCardProps) {
 						src={match.homeTeam.logoURL}
 						alt={match.homeTeam.name}
 						loading="lazy"
-						className="size-8 object-contain"
+						className="size-8 object-contain overflow-hidden"
 					/>
 					<span title={match.homeTeam.name}>
 						{match.homeTeam.code ||
@@ -56,7 +56,7 @@ export function MatchCard({ match, index }: MatchCardProps) {
 						src={match.awayTeam.logoURL}
 						alt={match.awayTeam.name}
 						loading="lazy"
-						className="size-8 object-contain"
+						className="size-8 object-contain overflow-hidden"
 					/>
 				</div>
 			</div>

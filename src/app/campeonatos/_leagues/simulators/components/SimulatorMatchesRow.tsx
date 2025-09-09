@@ -74,7 +74,7 @@ export default function SimulatorMatchesRow({ index, match }: SimulatorMatchesRo
 						src={match.homeTeam.logoURL}
 						alt={match.homeTeam.name}
 						loading="lazy"
-						className="size-8 object-contain"
+						className="size-8 object-contain overflow-hidden"
 					/>
 					<span title={match.homeTeam.name}>{match.homeTeam.code || match.homeTeam.name.substring(0, 3).toUpperCase()}</span>
 				</div>
@@ -113,7 +113,7 @@ export default function SimulatorMatchesRow({ index, match }: SimulatorMatchesRo
 						src={match.awayTeam.logoURL}
 						alt={match.awayTeam.name}
 						loading="lazy"
-						className="size-8 object-contain"
+						className="size-8 object-contain overflow-hidden"
 					/>
 					<span title={match.awayTeam.name}>{match.awayTeam.code || match.awayTeam.name.substring(0,3).toUpperCase()}</span>
 				</div>

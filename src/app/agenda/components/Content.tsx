@@ -28,7 +28,7 @@ const competitionOptions = [
 				<img
 					src="https://media.api-sports.io/football/leagues/71.png"
 					alt="Logo"
-					className="size-4"
+					className="size-4 overflow-hidden"
 				/>
 				Brasileirão Série A
 			</div>
@@ -42,7 +42,7 @@ const competitionOptions = [
 				<img
 					src="https://media.api-sports.io/football/leagues/72.png"
 					alt="Logo"
-					className="size-4"
+					className="size-4 overflow-hidden"
 				/>
 				Brasileirão Série B
 			</div>
@@ -56,7 +56,7 @@ const competitionOptions = [
 				<img
 					src="https://media.api-sports.io/football/leagues/73.png"
 					alt="Logo"
-					className="size-4"
+					className="size-4 overflow-hidden"
 				/>
 				Copa do Brasil
 			</div>
@@ -92,7 +92,7 @@ export function Content({ matches }: ContentProps) {
 										src={match.homeTeam.logoURL}
 										alt="Escudo"
 										loading="lazy"
-										className="size-4"
+										className="size-4 overflow-hidden"
 									/>
 									{match.homeTeam.name}
 								</div>
@@ -110,7 +110,7 @@ export function Content({ matches }: ContentProps) {
 										src={match.awayTeam.logoURL}
 										alt="Escudo"
 										loading="lazy"
-										className="size-4"
+										className="size-4 overflow-hidden"
 									/>
 									{match.awayTeam.name}
 								</div>
