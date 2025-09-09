@@ -5,6 +5,7 @@ import type { Match } from "@/lib/types/match"
 import MatchCard from "./components/MatchCard"
 import TwoLeggedTieCard from "./components/TwoLeggedTieCard"
 import PhaseTabs from "./PhaseTabs"
+import TwoLeggedTiePlaceholderCard from "./components/TwoLeggedTiePlaceholderCard"
 
 function groupMatches(matches: Match[]): Record<number, Match[][] | Match[]> {
 	const keyMap = new Map<number, number>()
@@ -127,8 +128,8 @@ export default async function Page() {
 						</TabsContent>
 						<TabsContent value="semifinal">
 							<div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-								{matchesByPhase[6] !== undefined &&
-									(matchesByPhase[6] as Array<Match[]>).map(
+								{matchesByPhase[6] !== undefined
+									? (matchesByPhase[6] as Array<Match[]>).map(
 										(matches, index) => (
 											<TwoLeggedTieCard
 												key={`${matches[0].id}${matches[1].id}`}
@@ -137,17 +138,36 @@ export default async function Page() {
 												index={`Semifinal ${index + 1}`}
 											/>
 										),
-									)}
+									) : <>
+										<TwoLeggedTiePlaceholderCard 
+											index="Semifinal 1"
+											firstTeamLabel="Venc. Quartas 1 ou 2"
+											secondTeamLabel="Venc. Quartas 1 ou 2"
+										/>
+										<TwoLeggedTiePlaceholderCard 
+											index="Semifinal 2"
+											firstTeamLabel="Venc. Quartas 3 ou 4"
+											secondTeamLabel="Venc. Quartas 3 ou 4"
+										/>
+									</>}
 							</div>
 						</TabsContent>
 						<TabsContent value="final">
-							{matchesByPhase[7] !== undefined && (
-								<TwoLeggedTieCard
-									index={"Final"}
-									firstMatch={(matchesByPhase[7] as Array<Match[]>)[0][0]}
-									secondMatch={(matchesByPhase[7] as Array<Match[]>)[0][1]}
-								/>
-							)}
+							{matchesByPhase[7] !== undefined 
+								? (
+									<TwoLeggedTieCard
+										index={"Final"}
+										firstMatch={(matchesByPhase[7] as Array<Match[]>)[0][0]}
+										secondMatch={(matchesByPhase[7] as Array<Match[]>)[0][1]}
+									/>
+								) : (
+									<TwoLeggedTiePlaceholderCard 
+										index="Final"
+										firstTeamLabel="Venc. Semi 1 ou 2"
+										secondTeamLabel="Venc. Semi 1 ou 2"
+									/>
+								)
+							}
 						</TabsContent>
 					</PhaseTabs>
 				</section>
