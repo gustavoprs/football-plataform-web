@@ -83,7 +83,7 @@ export default function ResponsiveSelect<T>({
 					<Label className="inline-flex items-center gap-2 mt-2 border-y px-4 w-full h-9">
 						<SearchIcon className="size-4.5 text-muted-foreground" />
 						<Input
-							className="border-0 p-0 text-sm font-normal bg-transparent shadow-none focus-visible:ring-0"
+							className="border-0 p-0 text-sm font-normal dark:bg-transparent bg-transparent shadow-none focus-visible:ring-0"
 							placeholder="Buscar..."
 							value={search}
 							onInput={(e) => setSearch(e.currentTarget.value)}
@@ -124,7 +124,7 @@ export default function ResponsiveSelect<T>({
 				<Label className="inline-flex items-center gap-2 px-3 w-full h-9">
 					<SearchIcon className="size-4.5 text-muted-foreground" />
 					<Input
-						className="border-0 p-0 text-sm font-normal bg-transparent shadow-none focus-visible:ring-0"
+						className="border-0 p-0 text-sm font-normal dark:bg-transparent bg-transparent shadow-none focus-visible:ring-0"
 						placeholder="Buscar..."
 						value={search}
 						onInput={(e) => setSearch(e.currentTarget.value)}
