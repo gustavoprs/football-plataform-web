@@ -73,11 +73,7 @@ export default function Nav() {
 					<Link href="/agenda">Agenda</Link>
 				</NavigationMenuLink>
 				<NavigationMenuItem>
-					<Link href="/campeonatos">
-						<NavigationMenuTrigger className="cursor-pointer">
-							Campeonatos
-						</NavigationMenuTrigger>
-					</Link>
+					<NavigationMenuTrigger>Campeonatos</NavigationMenuTrigger>
 					<NavigationMenuContent>
 						<div className="grid w-[300px] gap-1">
 							{championshipLinks.map((link) => (
