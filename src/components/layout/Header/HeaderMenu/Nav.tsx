@@ -113,6 +113,7 @@ function Item({ link }: { link: LinkItem }) {
 						loading="lazy"
 						width={20}
 						height={20}
+						className="overflow-hidden"
 					/>
 				)}
 				<span>{link.title}</span>
