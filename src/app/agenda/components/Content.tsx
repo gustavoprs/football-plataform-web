@@ -162,25 +162,28 @@ export function Content({ matches }: ContentProps) {
 
 	return (
 		<section className="flex flex-col gap-4">
-			<div className="flex justify-between gap-3 sm:justify-start">
-				<Label className="flex flex-col items-start">
+			<div className="flex flex-wrap gap-3">
+				<Label className="flex flex-col items-start w-full sm:w-56">
 					Datas:
 					<ResponsiveDateRangePicker
+						className="w-full"
 						value={selectedDateRange}
 						onValueChange={setSelectedDateRange}
 					/>
 				</Label>
-				<Label className="flex flex-col items-start">
+				<Label className="flex flex-col items-start flex-1 min-w-40 sm:flex-0">
 					Campeonatos:
 					<ResponsiveSelect
+						className="w-full"
 						options={competitionOptions}
 						value={selectedCompetitions}
 						onValueChange={setSelectedCompetitions}
 					/>
 				</Label>
-				<Label className="flex flex-col items-start">
+				<Label className="flex flex-col items-start flex-1 min-w-40 sm:flex-0">
 					Clubes:
 					<ResponsiveSelect<number>
+						className="w-full"
 						options={teamsOptions}
 						value={selectedTeams}
 						onValueChange={setSelectedTeams}

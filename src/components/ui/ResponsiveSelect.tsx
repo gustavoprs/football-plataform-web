@@ -13,23 +13,24 @@ import { Label } from "./label"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 import { Separator } from "./separator"
 
-type Option<T> = 
+type Option<T> =
 	| {
-		value: T
-		label: string
-		searchLabel?: string
-	}
+			value: T
+			label: string
+			searchLabel?: string
+	  }
 	| {
-		value: T
-		label: Exclude<React.ReactNode, string>
-		searchLabel: string
-	}
+			value: T
+			label: Exclude<React.ReactNode, string>
+			searchLabel: string
+	  }
 
 type ResponsiveSelectProps<T> = {
 	options: Array<Option<T>>
 	defaultValue?: Array<T>
 	value?: Array<T>
 	onValueChange?: (value: Array<T>) => void
+	className?: string
 }
 
 export default function ResponsiveSelect<T>({
@@ -37,6 +38,7 @@ export default function ResponsiveSelect<T>({
 	defaultValue,
 	value: valueProp,
 	onValueChange,
+	className,
 }: ResponsiveSelectProps<T>) {
 	const isControlled = typeof valueProp !== "undefined"
 
@@ -63,8 +65,10 @@ export default function ResponsiveSelect<T>({
 	}
 
 	const filteredOptions = options.filter((option) => {
-		const textToSearch = option.searchLabel ?? (typeof option.label === "string" ? option.label : String(option.value))
-		
+		const textToSearch =
+			option.searchLabel ??
+			(typeof option.label === "string" ? option.label : String(option.value))
+
 		return removeAccents(textToSearch.trim())
 			.toLowerCase()
 			.includes(removeAccents(search.trim()).toLowerCase())
@@ -74,7 +78,7 @@ export default function ResponsiveSelect<T>({
 		return (
 			<Drawer open={isOpen} onOpenChange={setIsOpen}>
 				<DrawerTrigger asChild>
-					<Trigger amountSelected={value.length} />
+					<Trigger amountSelected={value.length} className={className} />
 				</DrawerTrigger>
 				<DrawerContent>
 					<DrawerTitle className="sr-only">
@@ -113,7 +117,7 @@ export default function ResponsiveSelect<T>({
 	return (
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
-				<Trigger amountSelected={value.length} />
+				<Trigger amountSelected={value.length} className={className} />
 			</PopoverTrigger>
 			<PopoverContent
 				className="w-auto overflow-hidden p-0"

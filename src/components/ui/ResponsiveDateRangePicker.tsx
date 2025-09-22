@@ -21,13 +21,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 type ResponsiveDateRangePickerProps = {
 	value?: DateRange | undefined
 	onValueChange?: (value: DateRange | undefined) => void
+	className?: string
 }
 
 export default function ResponsiveDateRangePicker({
 	value: valueProp,
 	onValueChange,
+	className,
 }: ResponsiveDateRangePickerProps) {
-	const isControlled = typeof valueProp !== "undefined" 
+	const isControlled = typeof valueProp !== "undefined"
 
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [internalValue, setInternalValue] = useState<DateRange | undefined>({
@@ -40,7 +42,7 @@ export default function ResponsiveDateRangePicker({
 	const value = isControlled ? valueProp : internalValue
 
 	function handleSelect(date: DateRange | undefined) {
-		if(!isControlled){
+		if (!isControlled) {
 			setInternalValue(date)
 		}
 
@@ -51,7 +53,7 @@ export default function ResponsiveDateRangePicker({
 		return (
 			<Drawer open={isOpen} onOpenChange={setIsOpen}>
 				<DrawerTrigger asChild>
-					<Trigger date={value} />
+					<Trigger date={value} className={className} />
 				</DrawerTrigger>
 				<DrawerContent className="px-2 pb-2">
 					<DrawerHeader>
@@ -74,7 +76,7 @@ export default function ResponsiveDateRangePicker({
 	return (
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
-				<Trigger date={value} />
+				<Trigger date={value} className={className} />
 			</PopoverTrigger>
 			<PopoverContent
 				aria-description="Selecione uma data"
@@ -83,11 +85,7 @@ export default function ResponsiveDateRangePicker({
 				alignOffset={-8}
 				sideOffset={10}
 			>
-				<Calendar
-					mode="range"
-					selected={value}
-					onSelect={handleSelect}
-				/>
+				<Calendar mode="range" selected={value} onSelect={handleSelect} />
 			</PopoverContent>
 		</Popover>
 	)
