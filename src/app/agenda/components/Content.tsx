@@ -137,7 +137,7 @@ export function Content({ matches }: ContentProps) {
 			selectedTeams.includes(match.awayTeam.id)
 
 		return isWithinInterval(match.date, { start, end }) && isInSelectedTeams
-	})
+	}).sort((a, b) => a.date.getTime() - b.date.getTime())
 
 	const matchesByCompetition: Record<string, Match[]> = {}
 	if (selectedCompetitions.includes("brasileirao-serie-a")) {
