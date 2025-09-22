@@ -2,7 +2,7 @@
 
 import { CheckIcon, SearchIcon } from "lucide-react"
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
 import { cn } from "@/lib/utils"
 import { removeAccents } from "@/lib/utils/string"
@@ -47,6 +47,12 @@ export default function ResponsiveSelect<T>({
 		defaultValue ?? [],
 	)
 	const [search, setSearch] = useState<string>("")
+
+	useEffect(() => {
+		if (isOpen) {
+			setSearch("")
+		}
+	}, [isOpen])
 
 	const isMobile = useMediaQuery("(max-width: 640px)")
 
