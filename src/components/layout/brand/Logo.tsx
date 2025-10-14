@@ -14,7 +14,7 @@ export default function Logo({ className }: LogoProps) {
 				className,
 			)}
 		>
-			<span className="relative top-px">LOGO</span>
+			<span className="relative top-px">Sideline</span>
 		</Link>
 	)
 }
