@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, ChevronDownIcon, SearchIcon } from "lucide-react"
+import { CheckIcon, SearchIcon } from "lucide-react"
 import type React from "react"
 import { useEffect, useState } from "react"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
@@ -27,26 +27,26 @@ type Option<T> =
 
 type ResponsiveSelectProps<T> = {
 	options: Array<Option<T>>
-	defaultValue?: T | null
-	value?: T | null
-	onValueChange?: (value: T | null) => void
+	defaultValue?: Array<T>
+	value?: Array<T>
+	onValueChange?: (value: Array<T>) => void
 	className?: string
 	children?: React.ReactNode
 }
 
-export default function ResponsiveSelect<T>({
+export default function ResponsiveMultipleSelect<T>({
 	options,
 	defaultValue,
 	value: valueProp,
 	onValueChange,
 	className,
-	children,
+	children
 }: ResponsiveSelectProps<T>) {
 	const isControlled = typeof valueProp !== "undefined"
 
 	const [isOpen, setIsOpen] = useState<boolean>(false)
-	const [internalValue, setInternalValue] = useState<T | null>(
-		defaultValue ?? null,
+	const [internalValue, setInternalValue] = useState<Array<T>>(
+		defaultValue ?? [],
 	)
 	const [search, setSearch] = useState<string>("")
 
@@ -61,14 +61,15 @@ export default function ResponsiveSelect<T>({
 	const value = isControlled ? valueProp : internalValue
 
 	function toggleOption(optionValue: T) {
-		const newValue = value === optionValue ? null : optionValue
+		const newValue = value.includes(optionValue)
+			? value.filter((v) => v !== optionValue)
+			: [...value, optionValue]
 
 		if (!isControlled) {
 			setInternalValue(newValue)
 		}
 
 		onValueChange?.(newValue)
-		setIsOpen(false)
 	}
 
 	const filteredOptions = options.filter((option) => {
@@ -85,12 +86,7 @@ export default function ResponsiveSelect<T>({
 		return (
 			<Drawer open={isOpen} onOpenChange={setIsOpen}>
 				<DrawerTrigger asChild>
-					{children ?? (
-						<Trigger
-							selected={options.find((option) => option.value === value) ?? null}
-							className={className}
-						/>
-					)}
+					{children ?? <Trigger amountSelected={value.length} className={className} />}
 				</DrawerTrigger>
 				<DrawerContent>
 					<DrawerTitle className="sr-only">
@@ -115,7 +111,7 @@ export default function ResponsiveSelect<T>({
 								onClick={() => toggleOption(option.value)}
 							>
 								<span className="size-4">
-									{option.value === value && <CheckIcon />}
+									{value.includes(option.value) && <CheckIcon />}
 								</span>
 								{option.label}
 							</Button>
@@ -129,7 +125,7 @@ export default function ResponsiveSelect<T>({
 	return (
 		<Popover open={isOpen} onOpenChange={setIsOpen}>
 			<PopoverTrigger asChild>
-				{children ?? <Trigger selected={options.find(option => option.value === value) ?? null} className={className} />}
+				{children ?? <Trigger amountSelected={value.length} className={className} />}
 			</PopoverTrigger>
 			<PopoverContent
 				className="w-auto overflow-hidden p-0"
@@ -158,7 +154,7 @@ export default function ResponsiveSelect<T>({
 						>
 							{option.label}
 							<span className="size-4">
-								{option.value === value && <CheckIcon />}
+								{value.includes(option.value) && <CheckIcon />}
 							</span>
 						</Button>
 					))}
@@ -168,22 +164,23 @@ export default function ResponsiveSelect<T>({
 	)
 }
 
-type TriggerProps<T> = {
-	selected: Option<T> | null
-} & React.ComponentProps<"button">
+type TriggerProps = { amountSelected: number } & React.ComponentProps<"button">
 
-function Trigger<T>({ selected, className, ...rest }: TriggerProps<T>) {
+function Trigger({ amountSelected, className, ...rest }: TriggerProps) {
 	return (
 		<Button
 			variant="outline"
 			className={cn(
-				"justify-between gap-2 px-2.5 w-40 font-normal shadow-none",
+				"justify-between gap-4 px-2.5 w-40 font-normal shadow-none",
 				className,
 			)}
 			{...rest}
 		>
-			{selected ? selected.label : <span className="flex-1 truncate">Nenhum selecionado</span>}
-			<ChevronDownIcon className="ml-auto" />
+			{amountSelected > 0
+				? amountSelected > 1
+					? `${amountSelected} selecionados`
+					: "1 selecionado"
+				: "Nenhum selecionado"}
 		</Button>
 	)
 }

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/collapsible"
 import { Label } from "@/components/ui/label"
 import ResponsiveDateRangePicker from "@/components/ui/ResponsiveDateRangePicker"
-import ResponsiveSelect from "@/components/ui/ResponsiveSelect"
+import ResponsiveMultipleSelect from "@/components/ui/ResponsiveMultipleSelect"
 import type { Match } from "@/lib/types/match"
 import { MatchCard } from "./MatchCard"
 
@@ -173,7 +173,7 @@ export function Content({ matches }: ContentProps) {
 				</Label>
 				<Label className="flex flex-col items-start flex-1 min-w-40 sm:flex-0">
 					Campeonatos:
-					<ResponsiveSelect
+					<ResponsiveMultipleSelect
 						className="w-full"
 						options={competitionOptions}
 						value={selectedCompetitions}
@@ -182,7 +182,7 @@ export function Content({ matches }: ContentProps) {
 				</Label>
 				<Label className="flex flex-col items-start flex-1 min-w-40 sm:flex-0">
 					Clubes:
-					<ResponsiveSelect<number>
+					<ResponsiveMultipleSelect<number>
 						className="w-full"
 						options={teamsOptions}
 						value={selectedTeams}
