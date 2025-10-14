@@ -113,6 +113,8 @@ export interface TeamResponse {
 	founded: number
 	logo_url: string
 	venue_id: number | null
+	venue: VenueResponse
+	players?: PlayerResponse[]
 }
 
 export interface VenueResponse {
@@ -126,4 +128,17 @@ export interface VenueResponse {
 	image_url: string
 	created_at: string
 	updated_at: string
+}
+
+export interface PlayerResponse {
+	id: number
+	name: string
+	age: number | null
+	number: number | null
+	position: "goalkeeper" | "defender" | "midfielder" | "attacker"
+	photo_url: string
+	team_id: number | null
+	created_at: string
+	updated_at: string
+	team?: TeamResponse
 }
