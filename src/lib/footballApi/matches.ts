@@ -62,11 +62,13 @@ export function mapMatch(api: MatchResponse): Match {
 
 export async function getFilteredMatches({
 	competitionIds,
+	teamIds,
 	from,
 	to,
 	year,
 }: {
 	competitionIds?: number[]
+	teamIds?: number[]
 	from?: Date
 	to?: Date
 	year?: number
@@ -76,11 +78,14 @@ export async function getFilteredMatches({
 	if (competitionIds && competitionIds.length > 0) {
 		params.set("competitions", competitionIds.join(","))
 	}
+	if (teamIds && teamIds.length > 0) {
+		params.set("teams", teamIds.join(","))
+	}
 	if (from) {
-		params.set("from", from.toISOString())
+		params.set("from", from.toISOString().substring(0, 10))
 	}
 	if (to) {
-		params.set("to", to.toISOString())
+		params.set("to", to.toISOString().substring(0, 10))
 	}
 	if (year) {
 		params.set("year", year.toString())
