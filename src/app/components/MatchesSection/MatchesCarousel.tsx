@@ -1,4 +1,5 @@
 import Link from "next/link"
+import MatchDialog from "@/components/match/MatchDialog"
 import { Button } from "@/components/ui/button"
 import { CarouselContent, CarouselItem } from "@/components/ui/carousel"
 import type { Match } from "@/lib/types/match"
@@ -23,7 +24,9 @@ export default function MatchesCarousel({
 					key={match.id}
 					className="basis-[65%] sm:basis-[45%] md:basis-[32%] lg:basis-[24%] xl:basis-[22%]"
 				>
-					<MatchCard match={match} />
+					<MatchDialog match={match}>
+						<MatchCard match={match} />
+					</MatchDialog>
 				</CarouselItem>
 			))}
 			<CarouselItem className="basis-1/3">

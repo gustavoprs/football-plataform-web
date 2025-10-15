@@ -1,12 +1,18 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { getStandings } from "@/lib/footballApi"
+import { getCompetitionById } from "@/lib/footballApi/competitions"
 import { getMatches } from "@/lib/footballApi/matches"
 import MatchesTable from "../../_leagues/tables/components/MatchesTable"
 import TableRow from "../../_leagues/tables/components/TableRow"
 
 export default async function Page() {
+	const competition = await getCompetitionById(1)
+
 	const standings = await getStandings(1, 2025)
-	const matches = await getMatches(1, 2025)
+	const matches = (await getMatches(1, 2025)).map((m) => ({
+		...m,
+		competition: competition,
+	}))
 
 	return (
 		<div className="flex flex-col p-4 flex-1">

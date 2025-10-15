@@ -5,15 +5,16 @@ import { formatDateTime } from "@/lib/utils/date"
 type MatchesRowProps = {
 	index: number
 	match: Match
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
-export default function MatchesRow({ index, match }: MatchesRowProps) {
+export default function MatchesRow({ index, match, ...rest }: MatchesRowProps) {
 	return (
 		<div
 			className={cn(
-				"flex flex-col items-center gap-2 py-2.5 px-3 flex-1 max-sm:min-h-20",
+				"flex flex-col items-center gap-2 py-2.5 px-3 flex-1 cursor-pointer transition-colors hover:bg-foreground/10 max-sm:min-h-20",
 				index % 2 === 0 && "bg-accent",
 			)}
+			{...rest}
 		>
 			<span className="w-full text-center text-xs font-light whitespace-nowrap">
 				{formatDateTime(match.date)}
@@ -27,18 +28,27 @@ export default function MatchesRow({ index, match }: MatchesRowProps) {
 						loading="lazy"
 						className="max-size-8 size-8 object-contain overflow-hidden"
 					/>
-					<span title={match.homeTeam.name}>{match.homeTeam.code || match.homeTeam.name.substring(0, 3).toUpperCase()}</span>
+					<span title={match.homeTeam.name}>
+						{match.homeTeam.code ||
+							match.homeTeam.name.substring(0, 3).toUpperCase()}
+					</span>
 				</div>
 				<div className="flex gap-1.5">
-					{match.status === "in_progress" || match.status === "finished" && (
-						<span className=" text-lg font-medium">{match.score.fullTime.home}</span>
-					)}
+					{match.status === "in_progress" ||
+						(match.status === "finished" && (
+							<span className=" text-lg font-medium">
+								{match.score.fullTime.home}
+							</span>
+						))}
 					<span className="text-lg font-extralight font-mono text-muted-foreground">
 						x
 					</span>
-					{match.status === "in_progress" || match.status === "finished" && (
-						<span className=" text-lg font-medium">{match.score.fullTime.away}</span>
-					)}
+					{match.status === "in_progress" ||
+						(match.status === "finished" && (
+							<span className=" text-lg font-medium">
+								{match.score.fullTime.away}
+							</span>
+						))}
 				</div>
 				<div className="flex flex-row-reverse items-center gap-2">
 					{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
@@ -48,7 +58,10 @@ export default function MatchesRow({ index, match }: MatchesRowProps) {
 						loading="lazy"
 						className="size-8 object-contain overflow-hidden"
 					/>
-					<span title={match.awayTeam.name}>{match.awayTeam.code || match.awayTeam.name.substring(0, 3).toUpperCase()}</span>
+					<span title={match.awayTeam.name}>
+						{match.awayTeam.code ||
+							match.awayTeam.name.substring(0, 3).toUpperCase()}
+					</span>
 				</div>
 			</div>
 		</div>

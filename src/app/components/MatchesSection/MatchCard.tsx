@@ -7,7 +7,7 @@ type Props = {
 
 export default function MatchCard({ match }: Props) {
 	return (
-		<div className="relative flex flex-col justify-center items-center gap-3 rounded-md border pt-1 pb-4 px-2 flex-1 bg-card transition-colors hover:bg-accent">
+		<div className="relative flex flex-col justify-center items-center gap-3 rounded-md border pt-1 pb-4 px-2 flex-1 bg-card cursor-pointer transition-colors hover:bg-accent">
 			<div className="flex justify-between items-center gap-2 w-full text-sm font-light whitespace-nowrap">
 				<span>{match.competition?.name}</span>
 				<span className="font-medium">

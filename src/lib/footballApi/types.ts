@@ -23,7 +23,7 @@ export interface CompetitionResponse {
 	id: number
 	name: string
 	country: string
-	logoUrl: string
+	logo_url: string
 	seasons: SeasonResponse[]
 }
 

@@ -1,4 +1,5 @@
 import { TabsContent } from "@/components/ui/tabs"
+import { getCompetitionById } from "@/lib/footballApi/competitions"
 import { getPhases } from "@/lib/footballApi/phases"
 import type { Match } from "@/lib/types/match"
 import MatchCard from "./components/MatchCard"
@@ -24,7 +25,12 @@ function groupTies(matches: Match[]) {
 }
 
 export default async function Page() {
-	const phasesMatches = await getPhases(3, 2025)
+	const competition = await getCompetitionById(3)
+
+	const phasesMatches = (await getPhases(3, 2025)).map((p) => ({
+		...p,
+		matches: p.matches?.map((m) => ({ ...m, competition: competition })),
+	}))
 
 	const finalMatches = phasesMatches[6].matches || []
 
@@ -46,25 +52,24 @@ export default async function Page() {
 						</TabsContent>
 						<TabsContent value="segunda-fase">
 							<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-								{phasesMatches[1].matches &&
-								phasesMatches[1].matches.length > 0 ? (
-									phasesMatches[1].matches.map((match, index) => (
-										<MatchCard
-											key={match.id}
-											match={match}
-											index={`Chave ${index + 1}`}
-										/>
-									))
-								) : (
-									new Array(20).fill(0).map((_, index) => (
-										<TwoLeggedTiePlaceholderCard
-											key={`secondPhase-${index*2+1}-${index*2+2}`}
-											index={`Chave ${index+1}`}
-											firstTeamLabel={`Venc. 1ª fase ${index*2+1} ou ${index*2+2}`}
-											secondTeamLabel={`Venc. 1ª fase ${index*2+1} ou ${index*2+2}`}
-										/>
-									))
-								)}
+								{phasesMatches[1].matches && phasesMatches[1].matches.length > 0
+									? phasesMatches[1].matches.map((match, index) => (
+											<MatchCard
+												key={match.id}
+												match={match}
+												index={`Chave ${index + 1}`}
+											/>
+										))
+									: new Array(20)
+											.fill(0)
+											.map((_, index) => (
+												<TwoLeggedTiePlaceholderCard
+													key={`secondPhase-${index * 2 + 1}-${index * 2 + 2}`}
+													index={`Chave ${index + 1}`}
+													firstTeamLabel={`Venc. 1ª fase ${index * 2 + 1} ou ${index * 2 + 2}`}
+													secondTeamLabel={`Venc. 1ª fase ${index * 2 + 1} ou ${index * 2 + 2}`}
+												/>
+											))}
 							</div>
 						</TabsContent>
 						<TabsContent value="terceira-fase">

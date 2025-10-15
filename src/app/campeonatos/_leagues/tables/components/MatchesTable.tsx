@@ -2,6 +2,7 @@
 
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { useState } from "react"
+import MatchDialog from "@/components/match/MatchDialog"
 import { Button } from "@/components/ui/button"
 import type { Match } from "@/lib/types/match"
 import MatchesRow from "./MatchesRow"
@@ -40,7 +41,9 @@ export default function MatchesTable({ matches }: Props) {
 			</div>
 			<div className="flex flex-col rounded-sm border flex-1 overflow-hidden">
 				{currentRoundMatches.map((data, index) => (
-					<MatchesRow key={data.id} index={index} match={data} />
+					<MatchDialog key={data.id} match={data} className="flex-1">
+						<MatchesRow index={index} match={data} />
+					</MatchDialog>
 				))}
 			</div>
 		</div>
