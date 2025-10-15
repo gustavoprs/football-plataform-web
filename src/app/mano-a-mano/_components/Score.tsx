@@ -21,7 +21,7 @@ export default function Score({ homeTeam, awayTeam }: Props) {
 					src={homeTeam.logoURL}
 					alt={homeTeam.name}
 					title={homeTeam.name}
-					className="size-8 overflow-hidden"
+					className="size-8 object-contain overflow-hidden"
 				/>
 				<span className="font-mono">{lineup.filter((p) => p?.teamId === homeTeam.id).length}</span>
 			</div>
@@ -33,7 +33,7 @@ export default function Score({ homeTeam, awayTeam }: Props) {
 					src={awayTeam.logoURL}
 					alt={awayTeam.name}
 					title={awayTeam.name}
-					className="size-8 overflow-hidden"
+					className="size-8 object-contain overflow-hidden"
 				/>
 			</div>
 		</div>
