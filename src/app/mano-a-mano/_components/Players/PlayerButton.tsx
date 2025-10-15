@@ -30,8 +30,8 @@ export default function PlayerButton({ player, className }: Props) {
 							className="absolute -bottom-px -right-3 w-1/2"
 						/>
 					)}
-					<span className="absolute top-full left-1/2 -translate-x-1/2 m-1 rounded-md py-0.5 px-1.5 max-w-[160%] text-nowrap text-sm font-medium truncate bg-black/35 text-white">
-						{player.name}
+					<span className="absolute top-full left-1/2 -translate-x-1/2 gap-1 m-1 rounded-md py-0.5 px-1.5 max-w-[160%] text-nowrap text-sm font-medium truncate bg-black/35 text-white">
+						<span className="font-mono font-bold">{player.number}</span> {player.name}
 					</span>
 				</div>
 			) : (
