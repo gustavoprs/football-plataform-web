@@ -45,8 +45,8 @@ export default function PlayerSelectButton({
 					<span className="font-semibold">{player.number}</span>
 					<span
 						className={cn(
-							"pe-1 text-start truncate",
-							inverted && "text-end pe-0",
+							"pe-4 text-start truncate",
+							inverted && "text-end pe-0 ps-4",
 						)}
 					>
 						{player.name}

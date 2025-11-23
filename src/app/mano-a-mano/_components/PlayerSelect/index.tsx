@@ -56,7 +56,8 @@ export default function PlayerSelect({
 					<DialogHeader>
 						<DialogTitle className="sr-only">Seleção de jogador</DialogTitle>
 					</DialogHeader>
-					<div className="grid grid-cols-2 gap-1 flex-1 sm:gap-5">
+					<div className="relative grid grid-cols-2 gap-1 flex-1 sm:gap-10">
+						<span className="z-10 absolute top-1/2 left-1/2 -translate-1/2 text-2xl font-bold text-muted-foreground">VS</span>
 						<div className="flex flex-col gap-5 flex-1">
 							<div className="flex items-center gap-2">
 								{/** biome-ignore lint/performance/noImgElement: <source domain not configured> */}
